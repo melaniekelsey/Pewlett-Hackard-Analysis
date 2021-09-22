@@ -25,12 +25,12 @@ When you breakdown the different salary ranges for the potential retirees, the h
 ### What is the gender breakdown of retirees?
 When you look at breakdown of potential retirees, there are more males than females that are currently on the list. 54,140 males and 36,258 females are slated to retire. This is a great opportunity to move more females into leadership roles. 
 
-![retiring_gender_count.png](https://github.com/melaniekelsey/Pewlett_Hackard_analysis/blob/main/Resources/retiring_gender_count.png)
+![retiring_gender_count.png](https://github.com/melaniekelsey/Pewlett-Hackard-analysis/blob/main/Resources/retiring_gender_count.png)
 
 ### Who is eligible for mentorship?
 There are 1549 associates eligible for mentorship, spread across 6 different roles. With the highest numbers currently with the title of Senior Staff and Engineer. As discussed above, there are a number of potential retirees in Senior Staff and Senior Engineer roles. this is a perfect opportunity for them to relay their knowledge and mentor potential replacement leaders to prepare them for their bright future at Pewlett-Hackard. 
 
-![mentorship_eligible.png](https://github.com/melaniekelsey/Pewlett_Hackard_analysis/blob/main/Resources/mentorship_eligible.png)
+![mentorship_eligible.png](https://github.com/melaniekelsey/Pewlett-Hackard-analysis/blob/main/Resources/mentorship_eligible.png)
 
 Additionally, there are a number of staff and Assistant Engineers with mentorship eligibility. With the proper mentorship and guidance, this could be a great opportunity to give them stretch assignments to prepare them for potential promotions and to help take on the gaps that will be left when higher ups retire in the near future. 
 
