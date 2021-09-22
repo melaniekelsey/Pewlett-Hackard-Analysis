@@ -2,7 +2,7 @@
 
 -- Getting ee info for retirement eligible people
 SELECT e.emp_no, e.first_name, e.last_name, t.title, t.from_date, t.to_date
-INTO retirement_titles
+--INTO retirement_titles
 FROM employees as e
 INNER JOIN titles as t
 ON e.emp_no = t.emp_no
@@ -16,12 +16,12 @@ first_name,
 last_name,
 title
 
-INTO unique_titles
+--INTO unique_titles
 FROM retirement_titles
 ORDER BY emp_no, to_date DESC;
 
 SELECT count(ut.title), ut.title
-INTO retiring_titles
+--INTO retiring_titles
 FROM unique_titles as ut
 GROUP BY title
 ORDER BY count(ut.title) DESC
@@ -35,7 +35,7 @@ e.birth_date,
 de.from_date,
 de.to_date,
 t.title
-INTO mentorship_eligibility
+--INTO mentorship_eligibility
 FROM employees as E
 INNER JOIN dept_emp as de
 ON e.emp_no = de.emp_no
@@ -45,67 +45,35 @@ WHERE (e.birth_date BETWEEN '1965-01-01' AND '1965-12-31')
 	      AND (de.to_date = '9999-01-01')
 ORDER BY emp_no, to_date DESC;
 
+SELECT count(emp_no),
+title
+FROM mentorship_eligibility
+GROUP BY title
+
 --ADDITIONAL QUERIES
--- Current ees with gender added
-SELECT DISTINCT ON (e.emp_no)e.emp_no, 
-e.first_name,
-e.last_name,
-e.birth_date,
-e.gender,
-de.from_date,
-de.to_date,
-t.title
---INTO New_Current_Emp
-FROM employees as E
-INNER JOIN dept_emp as de
-ON e.emp_no = de.emp_no
-INNER JOIN titles as t
-ON e.emp_no = t.emp_no
-WHERE  (de.to_date = '9999-01-01')
-ORDER BY emp_no, to_date DESC;
+SELECT ut.emp_no, ut.first_name, ut.last_name, ut.title, s.salary,
+CASE WHEN s.salary>=40000 and s.salary<60000 then '40000-59999'
+WHEN s.salary>=60000 and s.salary<80000 then '60000-79999'
+WHEN s.salary>=80000 and s.salary<100000 then '80000-99999'
+WHEN s.salary>=100000 and s.salary<120000 then  '100000-119999' 
+ELSE '120000+' END AS Salary_bin
+INTO Retiring_Salary_Bins
+FROM unique_titles as ut
+INNER JOIN salaries as s
+ON ut.emp_no = s.emp_no
+GROUP BY ut.emp_no, ut.first_name, ut.last_name, ut.title, s.salary
 
--- Summary of current employee by title and gender
-SELECT count(emp_no), title
-FROM new_current_emp
-GROUP BY title 
-ORDER BY title,  count(emp_no) DESC
+SELECT count(emp_no), Salary_bin
+FROM Retiring_Salary_Bins
 
--- Retiring Emps with gender added all data
-SELECT e.emp_no, e.first_name, e.last_name, e.gender, t.title, t.from_date, t.to_date
+SELECT ut.emp_no, ut.first_name, ut.last_name, ut.title, e.gender
 INTO retirement_titles_genders
-FROM employees as e
-INNER JOIN titles as t
-ON e.emp_no = t.emp_no
-WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+FROM unique_titles as ut
+INNER JOIN employees as e
+ON ut.emp_no = e.emp_no
 ORDER BY emp_no
 
--- Retiring EEs with gender and title unique values
-SELECT DISTINCT ON (emp_no) emp_no,
-first_name,
-last_name,
-title, gender
-INTO unique_titles_genders
+SELECT count(emp_no), gender
 FROM retirement_titles_genders
-ORDER BY emp_no, to_date DESC;
-
---Summary of retiring EES with gender and title
-SELECT count(emp_no), title, gender
-FROM unique_titles_genders
-GROUP BY title, gender
-ORDER BY title, gender, count(emp_no) DESC
-
---Summary of current ees count by gender
-SELECT count(emp_no), gender
-FROM new_current_emp
-GROUP by gender
-
--- Summary of retiring ees counts by gender
-SELECT count(emp_no), gender
-FROM unique_titles_genders
 GROUP BY gender
 
--- Summary of retiring ees counts by title
-SELECT count(emp_no), title
-FROM unique_titles_genders
-GROUP BY title
-ORDER BY count(emp_no) DESC
